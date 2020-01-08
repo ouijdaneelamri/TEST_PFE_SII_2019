@@ -2,6 +2,8 @@ package sii.maroc;
 
 import org.junit.Assert;
 import org.junit.Test;
+import sii.maroc.Exception.UnavailableDishException;
+
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /*recipe of Tomato Mozzarella Salad is
@@ -18,7 +20,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class RestaurantTest {
 
     @Test
-    public void shouldServeTomatoMozzarellaSalad(){
+    public void shouldServeTomatoMozzarellaSalad() throws UnavailableDishException {
         Restaurant restaurant = new Restaurant("6 balls Mozzarella", "20 tomatoes", "olive oil", "pepper");
         Ticket ticket = restaurant.order("1 Tomato Mozzarella Salad");
         Meal meal = restaurant.retrieve(ticket);
@@ -31,7 +33,9 @@ public class RestaurantTest {
      */
 // Allowed modification zone starts here
     @Test
-    public void shouldFailWhenOutOfStock(){
+    public void shouldFailWhenOutOfStock() throws UnavailableDishException {
+        Restaurant restaurant = new Restaurant("6 balls Mozzarella", "20 tomatoes", "olive oil", "pepper");
+        Ticket ticket = restaurant.order("1 Tomato 50 Mozzarella Salad");
         Assert.fail();
     }
 // Allowed modification zone ends here
@@ -45,7 +49,7 @@ public class RestaurantTest {
      * here : first = 6 ; 2nd = 3 ; 3rd = 3 ; 4th = 3 => 15 minutes
      */
     @Test
-    public void shouldCookFasterWhenDoingMultipleInstanceOfTheSameDish(){
+    public void shouldCookFasterWhenDoingMultipleInstanceOfTheSameDish() throws UnavailableDishException {
         Restaurant restaurant = new Restaurant("6 balls Mozzarella", "20 tomatoes", "olive oil", "sea salt");
         Ticket ticket = restaurant.order("4 Tomato Mozzarella Salad");
         Meal meal = restaurant.retrieve(ticket);
@@ -72,7 +76,7 @@ public class RestaurantTest {
      *   oven have unlimited capacity multiple dishes can be baked at the same time
      */
     @Test
-    public void shouldServeMixedOrders(){
+    public void shouldServeMixedOrders() throws UnavailableDishException {
         Restaurant restaurant = new Restaurant("1Kg Flour", "50 tomatoes", "sea salt", "6 balls Mozzarella", "olive oil", "water");
         Ticket ticket = restaurant.order("3 Tomato Mozzarella Salad").and("2 Pizza");
         Meal meal = restaurant.retrieve(ticket);
